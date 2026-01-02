@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celestial Whispers</title>
+   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Cinzel:wght@400;500;600;700&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader"></div>
+        <div class="loading-text">Loading the stars...</div>
+    </div>
+
+    <!-- Cosmic Background -->
+    <div class="moon">
+        <img src="assets/moon.png" alt="Moon" id="moonImage">
+    </div>
+    <div class="stars" id="stars"></div>
+
+    <!-- Global Background Music Control -->
+    <div class="global-audio-control" id="globalAudioControl" title="Toggle Background Music">
+        <svg id="musicIcon" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z" />
+        </svg>
+        <svg id="musicMutedIcon" style="display: none;" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM12.293 7.293a1 1 0 011.414 0L15 8.586l1.293-1.293a1 1 0 111.414 1.414L16.414 10l1.293 1.293a1 1 0 01-1.414 1.414L15 11.414l-1.293 1.293a1 1 0 01-1.414-1.414L13.586 10l-1.293-1.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+    </div>
+
+    <!-- Background Music Audio Element -->
+    <audio id="backgroundMusic" loop>
+        <source src="assets/background-music.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Login Overlay -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-card">
+            <h1>Welcome, Kobi</h1>
+            <p>A constellation of memories awaits</p>
+            <div class="input-group">
+                <input type="text" id="username" placeholder="Username" autocomplete="off">
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Password" autocomplete="off">
+            </div>
+            <button class="login-btn" onclick="handleLogin()">Enter</button>
+            <div class="message-box" id="messageBox"></div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <svg class="star-icon" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+                <span>Kobi</span>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="hero">
+          <h1><span class="initial">H</span>appy <span class="initial">B</span>irthday, <span class="initial">M</span>y <span class="initial">F</span>orever</h1>
+            <h2>Scroll to see the unseen</h2>
+        </section>
+
+        <!-- Narrative Section -->
+        <section class="narrative">
+            <p>
+               These are not just memories... they are wishes given voice.
+               Each animated frame replays the touches I dared not give,
+               the shy, stolen kisses and tighter embraces I held backborn
+               from our old photographs, now brought to life to show the love I couldn't then.
+               Until my courage catches up, let these gentle scenes speak for me.
+            </p>
+        </section>
+
+        <!-- Memory Gallery -->
+        <section class="memory-gallery">
+            <div class="golden-thread">
+                <svg viewBox="0 0 1400 2600" preserveAspectRatio="xMidYMid slice">
+                    <defs>
+                        <linearGradient id="goldGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" style="stop-color:#d4af37;stop-opacity:0.8" />
+                            <stop offset="25%" style="stop-color:#f4e4a6;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#fff8dc;stop-opacity:1" />
+                            <stop offset="75%" style="stop-color:#f4e4a6;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#d4af37;stop-opacity:0.8" />
+                        </linearGradient>
+                        <linearGradient id="shimmerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.9">
+                                <animate attributeName="offset" values="0;1;0" dur="3s" repeatCount="indefinite" />
+                            </stop>
+                            <stop offset="50%" style="stop-color:#f4e4a6;stop-opacity:0.6" />
+                            <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0.9">
+                                <animate attributeName="offset" values="1;0;1" dur="3s" repeatCount="indefinite" />
+                            </stop>
+                        </linearGradient>
+                        <filter id="glow">
+                            <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+                            <feMerge>
+                                <feMergeNode in="coloredBlur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                    </defs>
+                    
+                    <path class="thread-glow" d="M 700 0" />
+                    <path class="thread-shimmer" d="M 700 0" />
+                    <path class="thread-path" d="M 700 0" filter="url(#glow)" />
+                    
+                    <circle class="light-particle" r="8" fill="#fff8dc" opacity="1" filter="url(#glow)">
+                        <animateMotion dur="10s" repeatCount="indefinite">
+                            <mpath href="#threadPath"/>
+                        </animateMotion>
+                    </circle>
+                    <circle class="light-particle" r="6" fill="#f4e4a6" opacity="0.9" filter="url(#glow)">
+                        <animateMotion dur="10s" repeatCount="indefinite" begin="2.5s">
+                            <mpath href="#threadPath"/>
+                        </animateMotion>
+                    </circle>
+                    <circle class="light-particle" r="7" fill="#ffffff" opacity="0.95" filter="url(#glow)">
+                        <animateMotion dur="10s" repeatCount="indefinite" begin="5s">
+                            <mpath href="#threadPath"/>
+                        </animateMotion>
+                    </circle>
+                    <circle class="light-particle" r="5" fill="#d4af37" opacity="0.85" filter="url(#glow)">
+                        <animateMotion dur="10s" repeatCount="indefinite" begin="7.5s">
+                            <mpath href="#threadPath"/>
+                        </animateMotion>
+                    </circle>
+                    
+                    <path id="threadPath" d="M 700 0" fill="none" stroke="none" />
+                </svg>
+            </div>
+
+            <!-- Memory 1 - Left -->
+            <div class="memory-item left" data-memory="1">
+                <div class="video-wrapper">
+                    <div class="video-container aspect-3-4" data-video="1">
+                        <video loop muted playsinline data-video-id="1">
+                            <source src="assets/memory_01.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="video-audio-control" data-video-id="1">
+                        <svg class="volume-on" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd" />
+                        </svg>
+                        <svg class="volume-off" style="display: none;" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM12.293 7.293a1 1 0 011.414 0L15 8.586l1.293-1.293a1 1 0 111.414 1.414L16.414 10l1.293 1.293a1 1 0 01-1.414 1.414L15 11.414l-1.293 1.293a1 1 0 01-1.414-1.414L13.586 10l-1.293-1.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="memory-caption">
+                    <h3>Memory I</h3>
+                    <p>In that quiet room we met, our first close embrace and a shy, lingering kiss that finally said what words could not. We walked away with each other's scent on our clothes and a new, breathless language between us.</p>
+                </div>
+            </div>
+
+            <!-- Memory 2 - Right -->
+            <div class="memory-item right" data-memory="2">
+                <div class="video-wrapper">
+                    <div class="video-container aspect-9-16" data-video="2">
+                        <video loop muted playsinline data-video-id="2">
+                            <source src="assets/memory_02.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="video-audio-control" data-video-id="2">
+                        <svg class="volume-on" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd" />
+                        </svg>
+                        <svg class="volume-off" style="display: none;" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM12.293 7.293a1 1 0 011.414 0L15 8.586l1.293-1.293a1 1 0 111.414 1.414L16.414 10l1.293 1.293a1 1 0 01-1.414 1.414L15 11.414l-1.293 1.293a1 1 0 01-1.414-1.414L13.586 10l-1.293-1.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="memory-caption">
+                    <h3>Memory II</h3>
+                    <p>In the park we met again, your kisses along my neck left me breathless and quietly wanting more. We smiled for the photo while you held me tight; I wished then to kiss you back and hold you closer than I dared.</p>
+                </div>
+            </div>
+
+            <!-- Memory 3 - Left -->
+            <div class="memory-item left" data-memory="3">
+                <div class="video-wrapper">
+                    <div class="video-container aspect-3-4" data-video="3">
+                        <video loop muted playsinline data-video-id="3">
+                            <source src="assets/memory_03.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="video-audio-control" data-video-id="3">
+                        <svg class="volume-on" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd" />
+                        </svg>
+                        <svg class="volume-off" style="display: none;" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM12.293 7.293a1 1 0 011.414 0L15 8.586l1.293-1.293a1 1 0 111.414 1.414L16.414 10l1.293 1.293a1 1 0 01-1.414 1.414L15 11.414l-1.293 1.293a1 1 0 01-1.414-1.414L13.586 10l-1.293-1.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="memory-caption">
+                    <h3>Memory III</h3>
+                    <p>Back where we first met, I teased your hair and let our hands wander into shy, lingering kisses. A playful little fight and bright laughter a closeness that left us smiling and wanting more.</p>
+                </div>
+            </div>
+
+            <!-- Memory 4 - Right -->
+            <div class="memory-item right" data-memory="4">
+                <div class="video-wrapper">
+                    <div class="video-container aspect-9-16" data-video="4">
+                        <video loop muted playsinline data-video-id="4">
+                            <source src="assets/memory_04.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="video-audio-control" data-video-id="4">
+                        <svg class="volume-on" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd" />
+                        </svg>
+                        <svg class="volume-off" style="display: none;" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM12.293 7.293a1 1 0 011.414 0L15 8.586l1.293-1.293a1 1 0 111.414 1.414L16.414 10l1.293 1.293a1 1 0 01-1.414 1.414L15 11.414l-1.293 1.293a1 1 0 01-1.414-1.414L13.586 10l-1.293-1.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="memory-caption">
+                    <h3>Memory IV</h3>
+                    <p>On my birthday, you became everything — the plan, the place, the people, the reason the day felt alive. At sunset above it all, I wanted to hold you closer, kiss you longer, and thank you for loving me the way only you do.</p>
+                </div>
+            </div>
+
+            <!-- Memory 5 - Left -->
+            <div class="memory-item left" data-memory="5">
+                <div class="video-wrapper">
+                    <div class="video-container aspect-3-4" data-video="5">
+                        <video loop muted playsinline data-video-id="5">
+                            <source src="assets/memory_05.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="video-audio-control" data-video-id="5">
+                        <svg class="volume-on" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd" />
+                        </svg>
+                        <svg class="volume-off" style="display: none;" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM12.293 7.293a1 1 0 011.414 0L15 8.586l1.293-1.293a1 1 0 111.414 1.414L16.414 10l1.293 1.293a1 1 0 01-1.414 1.414L15 11.414l-1.293 1.293a1 1 0 01-1.414-1.414L13.586 10l-1.293-1.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="memory-caption">
+                    <h3>Memory V</h3>
+                    <p>Our first intimate moment — where I wanted you beside me a little longer, wrapped in quiet closeness. I wished to hold you, to cuddle deeper, and linger in the warmth we had just discovered together.</p>
+                </div>
+            </div>
+
+            <!-- Memory 6 - Right -->
+            <div class="memory-item right" data-memory="6">
+                <div class="video-wrapper">
+                    <div class="video-container aspect-9-16" data-video="6">
+                        <video loop muted playsinline data-video-id="6">
+                            <source src="assets/memory_06.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="video-audio-control" data-video-id="6">
+                        <svg class="volume-on" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd" />
+                        </svg>
+                        <svg class="volume-off" style="display: none;" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM12.293 7.293a1 1 0 011.414 0L15 8.586l1.293-1.293a1 1 0 111.414 1.414L16.414 10l1.293 1.293a1 1 0 01-1.414 1.414L15 11.414l-1.293 1.293a1 1 0 01-1.414-1.414L13.586 10l-1.293-1.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="memory-caption">
+                    <h3>Memory VI</h3>
+                    <p>We wandered the mall, shared a meal, laughed endlessly, letting the day feel light and full. When it was time to part, I wanted one more hug, one more moment, wishing time would slow and never let us end the day.</p>
+                </div>
+            </div>
+            
+        </section>
+
+
+
+        <!-- Tarot Card Reveal Section -->
+        <section class="tarot-section">
+            <div class="tarot-intro">
+                <h2 class="tarot-title"><span class="initial">T</span>he <span class="initial">W</span>ay <span class="initial">S</span>he <span class="initial">L</span>ives <span class="initial">I</span>n <span class="initial">M</span>y <span class="initial">D</span>reams</h2>
+                <p class="tarot-subtitle">Click, and let the universe softly reveal how you live in my dreams and stay in my heart...</p>
+            </div>
+            
+            <!-- Chime Sound -->
+            <audio id="chimeSound" preload="auto">
+                <source src="assets/chime.mp3" type="audio/mpeg">
+            </audio>
+            
+            <div class="tarot-carousel-container">
+                <!-- Left Arrow -->
+                <button class="carousel-arrow carousel-arrow-left" id="carouselLeft" aria-label="Previous card">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                
+                <!-- Cards Container -->
+                <div class="tarot-cards-wrapper">
+                    <div class="tarot-cards-track" id="tarotTrack">
+                        
+                        <!-- Card 1: The Lovers -->
+                        <div class="tarot-card-container" data-card="1">
+                            <div class="tarot-card" onclick="flipCard(this)">
+                                <div class="tarot-card-inner">
+                                    <div class="tarot-card-front">
+                                        <img src="assets/the_lovers.png" alt="The Lovers">
+                                        <div class="card-glow"></div>
+                                    </div>
+                                    <div class="tarot-card-back">
+                                        <img src="assets/the_lovers_gf.png" alt="My Love">
+                                        <div class="card-glow"></div>
+                                    </div>
+                                </div>
+                                <!-- Glitter Container -->
+                                <div class="glitter-container"></div>
+                            </div>
+                            <p class="tarot-quote">"Two souls, one heartbeat — bound by fate, united by love."</p>
+                        </div>
+                        
+                        <!-- Card 2: Two of Cups -->
+                        <div class="tarot-card-container" data-card="2">
+                            <div class="tarot-card" onclick="flipCard(this)">
+                                <div class="tarot-card-inner">
+                                    <div class="tarot-card-front">
+                                        <img src="assets/two_of_cups.png" alt="Two of Cups">
+                                        <div class="card-glow"></div>
+                                    </div>
+                                    <div class="tarot-card-back">
+                                        <img src="assets/two_of_cups_gf.png" alt="My Love">
+                                        <div class="card-glow"></div>
+                                    </div>
+                                </div>
+                                <!-- Glitter Container -->
+                                <div class="glitter-container"></div>
+                            </div>
+                            <p class="tarot-quote">"In your eyes, I found the home my heart had always searched for."</p>
+                        </div>
+                        
+                        <!-- Card 3: The Empress -->
+                        <div class="tarot-card-container" data-card="3">
+                            <div class="tarot-card" onclick="flipCard(this)">
+                                <div class="tarot-card-inner">
+                                    <div class="tarot-card-front">
+                                        <img src="assets/the_empress.png" alt="The Empress">
+                                        <div class="card-glow"></div>
+                                    </div>
+                                    <div class="tarot-card-back">
+                                        <img src="assets/the_empress_gf.png" alt="My Love">
+                                        <div class="card-glow"></div>
+                                    </div>
+                                </div>
+                                <!-- Glitter Container -->
+                                <div class="glitter-container"></div>
+                            </div>
+                            <p class="tarot-quote">"You are the goddess of my universe — radiant, divine, and eternal."</p>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <!-- Right Arrow -->
+                <button class="carousel-arrow carousel-arrow-right" id="carouselRight" aria-label="Next card">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Carousel Dots -->
+            <div class="carousel-dots" id="carouselDots">
+                <span class="dot active" data-index="0"></span>
+                <span class="dot" data-index="1"></span>
+                <span class="dot" data-index="2"></span>
+            </div>
+        </section>
+
+        <!-- Finale Section -->
+        <section class="finale">
+            <h2><span class="initial">Y</span>ou are the place my <span class="initial">H</span>eart always returns to. <span class="initial">L</span>ove you, <span class="initial">K</span>obi</h2>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
