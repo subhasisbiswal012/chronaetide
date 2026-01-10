@@ -2,9 +2,9 @@
 // CONFIGURATION - EDIT THESE VALUES
 // ============================================
 const CONFIG = {
-    username: "Kobi",
+    username: "Kairavi",
     password: "Chora",
-    girlName: "Kobi",
+    girlName: "Kairavi",
     boyName: "Chora",
     loginFailMessage: "The stars do not align. Try again, my dear.",
     loginSuccessMessage: "Welcome to your constellation of dreams..."
