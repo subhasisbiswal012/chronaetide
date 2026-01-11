@@ -1,266 +1,150 @@
 # 🌙 Celestial Whispers - Birthday Website
 
-## 📁 File Structure
+Welcome — **Celestial Whispers** is a tiny, forkable web experience for creating a personalised birthday / love page you can send to someone special. It displays a hero, narrative, a memory gallery (videos), a tarot-inspired reveal with personalised photos, background music and a final message. This repo name is **`chronaetide`**.
 
-Create this exact folder structure on your computer:
+---
 
+## Repo contents (what to expect)
+- `index.html` — main page (hero, narrative, memory gallery, tarot cards, finale). Edit visible strings and structure here.
+- `script.js` — configuration and interactive logic. Edit the `CONFIG` block at the top to personalise username/password and names.
+- `styles.css` — styling and responsive rules.
+- `assets/` — place your videos, images and audio here (see **Required asset names**).
+
+---
+
+## Quick Personalization checklist (copy-edit ready)
+1. **Edit `script.js` CONFIG**  
+   Open `script.js` and update the `CONFIG` object:
+   - `username`: the login name shown/accepted (often your loved one’s name).
+   - `password`: secret for the surprise gate (client-side only).
+   - `girlName` / `boyName`: used in UI strings.
+   - Optional messages (`loginFailMessage`, `loginSuccessMessage`, etc.).
+
+2. **Replace visible demo name(s) in `index.html`**  
+   Search for the demo name (e.g., `Kairavi`) and replace with your loved one’s name so hero, headings and the finale read correctly.
+
+3. **Add your own media to `assets/`**  
+   Put your images, music and videos into the `assets/` folder using the exact filenames below (or update the HTML if you prefer different names).
+
+4. **Tarot photos**  
+   Replace tarot card images with your photos but **keep the exact filenames** (including `GF` suffix) so the JavaScript finds them. Even if the photo is of a boyfriend, keep `GF` in the filename.
+
+5. **Push changes**  
+   Commit and push your fork. Then host using GitHub Pages or Azure (instructions below).
+
+---
+
+## Required asset names (use these exact filenames unless you change the code)
+Place the following files inside the `assets/` folder:
+
+- `background-music.mp3` — background track used by the site  
+- `chime.mp3` — short chime sound used for tarot flips / UI cues  
+- `moon.png` — decorative hero image (optional)  
+- `memory_01.mp4`, `memory_02.mp4`, `memory_03.mp4`, `memory_04.mp4`, `memory_05.mp4`, `memory_06.mp4` — six memory videos (keep names exact if you don't want to edit HTML)  
+- Tarot images (replace contents but keep names):  
+  - `lovers_GF.png`  
+  - `two_of_cups_GF.png`  
+  - `impress_GF.png`
+
+> If you want more/fewer memories or different file names, update the markup in `index.html` (and any references in `script.js`) to match your assets.
+
+---
+
+## Hosting — two simple ways
+
+### A) Host on **GitHub Pages** (recommended, free and simple)
+1. Fork the `chronaetide` repository to your GitHub account.  
+2. Edit the repo (personalise `script.js`, `index.html`, add `assets/`), commit and push to your fork’s `main` branch.  
+3. On GitHub: go to **Settings → Pages** (or **Settings → Code and automation → Pages**).  
+4. Under *Build and deployment* select **Branch: main** and **Folder: / (root)**, then click **Save**.  
+5. After a minute or two GitHub will provide a site URL (something like `https://<your-username>.github.io/chronaetide/`). Copy that URL and share it.
+
+**Notes:**  
+- Make the repo public if you want anyone with the link to open it (private repos can also use Pages with paid plans; making it public is simplest).  
+- If assets are large, consider hosting large videos externally (see performance tips below).
+
+### B) Host on **Azure Static Website using a Storage Account ($web container)**
+(This uses Azure Blob Storage's static website feature. It hosts static files from the special `$web` container.)
+
+**Portal steps (no CLI):**
+1. Create an Azure account (if you don’t have one).  
+2. In the Azure Portal, create a new **Storage account**. Choose region and SKU as desired.  
+3. Once the storage account is created, open it and find **Static website** (under the Data storage section).  
+4. Enable **Static website hosting**, set **Index document name** to `index.html`, and save. Enabling this will create a special `$web` container automatically.  
+5. Open **Containers** → click the `$web` container → upload your site files and folders (upload `index.html`, `script.js`, `styles.css`, and the whole `assets/` folder). Be sure the directory structure inside `$web` matches how files are referenced in `index.html` (so `assets/` sits at the same level as `index.html`).  
+6. After upload, the **Primary endpoint** URL shown in the Static website blade is your site link. Copy and share it.
+
+**CLI alternative (az CLI) — upload a folder to `$web`:**
+```bash
+# login and set subscription if needed
+az login
+az account set --subscription "<your-subscription-id>"
+
+# upload local folder (escaping $web)
+az storage blob upload-batch \
+  --account-name <your-storage-account-name> \
+  -s ./path-to-your-site-folder \
+  -d '$web'
 ```
-birthday-surprise/
-├── index.html          (Main HTML file)
-├── styles.css          (All styling)
-├── script.js           (All JavaScript)
-└── assets/
-    ├── memory_01.mp4   (960x1280 video)
-    ├── memory_02.mp4   (832x1504 video)
-    ├── memory_03.mp4   (960x1280 video)
-    ├── memory_04.mp4   (832x1504 video)
-    ├── memory_05.mp4   (960x1280 video)
-    ├── memory_06.mp4   (832x1504 video)
-    ├── moon.png        (Transparent moon image)
-    └── background-music.mp3 (Romantic ambient music)
-```
+After upload confirm the Static website index is `index.html` and use the primary endpoint URL.
+
+**Notes / caveats (Azure):**
+
+* Ensure `index.html` is at the root of `$web` (not nested).
+* Check content-types (Azure typically sets them automatically, but confirm video/audio files are served correctly).
+* If you plan to allow editing by others after hosting, either give them access to the storage account or prefer GitHub for collaborative workflows.
 
 ---
 
-## 🚀 Step-by-Step Setup
+## Mobile & performance tips (important)
 
-### Step 1: Create the Project Folder
-1. Create a folder on your Desktop called `birthday-surprise`
-2. Inside it, create a folder called `assets`
+* The page loads multiple high-quality videos and audio which can be heavy for phones and tablets. If you see slow loads or crashes:
 
-### Step 2: Copy the Files
-1. **Create `index.html`**:
-   - Copy the HTML code from the first artifact above
-   - Save it as `index.html` in the `birthday-surprise` folder
-
-2. **Create `styles.css`**:
-   - Copy the CSS code from the second artifact
-   - Save it as `styles.css` in the `birthday-surprise` folder
-
-3. **Create `script.js`**:
-   - Copy the JavaScript code from the third artifact
-   - Save it as `script.js` in the `birthday-surprise` folder
-
-### Step 3: Add Your Assets
-Place all these files in the `assets` folder:
-- Your 6 renamed videos (`memory_01.mp4` through `memory_06.mp4`)
-- Your moon image (`moon.png`)
-- Your background music (`background-music.mp3`)
+  * **Compress videos** to 720p or 480p, reduce bitrate, or convert to `webm`.
+  * **Host large videos externally** (YouTube unlisted / Vimeo / S3) and use external URLs in `<video>` sources.
+  * **Lazy-load** videos via `data-src` + IntersectionObserver so only nearby videos download.
+  * Set `<video preload="metadata">` and provide `poster` images so full files aren’t loaded until play.
+  * Serve lower-quality fallbacks for small screens (conditional logic in `script.js` using `window.innerWidth`).
+* For best UX on mobile, require the visitor to interact (tap) before music plays; many browsers block autoplay otherwise.
 
 ---
 
-## ⚙️ Configuration
+## Security & privacy
 
-Open `script.js` and edit these values at the top:
-
-```javascript
-const CONFIG = {
-    username: "Kobi",           // Change to her username
-    password: "Chora",          // Change to your password
-    girlName: "Kobi",           // Her name
-    boyName: "Chora",           // Your name
-    loginFailMessage: "The stars do not align. Try again, my dear.",
-    loginSuccessMessage: "Welcome to your constellation of dreams..."
-};
-```
+* The "login" is **client-side JavaScript only** (UX gate). It is **not secure** — do not store secrets or sensitive information in it.
+* If your GitHub repo is public, any media you upload there is publicly accessible. Use a private repo (or external private storage) for private media.
 
 ---
 
-## 🎬 Adding More Memory Videos
+## How to change behavior (developer notes)
 
-The HTML includes only Memory 1 and 2 as examples. To add memories 3-6:
-
-**Copy this block for each memory** (replace numbers and text):
-
-```html
-<!-- Memory 3 - Left -->
-<div class="memory-item left" data-memory="3">
-    <div class="video-wrapper">
-        <div class="video-container aspect-3-4" data-video="3">
-            <video loop muted playsinline data-video-id="3">
-                <source src="assets/memory_03.mp4" type="video/mp4">
-            </video>
-        </div>
-        <div class="video-audio-control" data-video-id="3">
-            <svg class="volume-on" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd" />
-            </svg>
-            <svg class="volume-off" style="display: none;" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM12.293 7.293a1 1 0 011.414 0L15 8.586l1.293-1.293a1 1 0 111.414 1.414L16.414 10l1.293 1.293a1 1 0 01-1.414 1.414L15 11.414l-1.293 1.293a1 1 0 01-1.414-1.414L13.586 10l-1.293-1.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-            </svg>
-        </div>
-    </div>
-    <div class="memory-caption">
-        <h3>Memory III</h3>
-        <p>Your custom text here...</p>
-    </div>
-</div>
-```
-
-**Important Changes for Each Memory:**
-- Odd numbers (1,3,5): `class="memory-item left"` + `aspect-3-4`
-- Even numbers (2,4,6): `class="memory-item right"` + `aspect-9-16`
-- Update `data-memory`, `data-video`, `data-video-id` numbers
-- Update video source (`memory_03.mp4`, `memory_04.mp4`, etc.)
-- Update caption title and text
+* **Number / order of memories**: edit the memory `<div>` blocks in `index.html` (class names and `video` elements).
+* **Tarot / reveal logic**: open `script.js` — the tarot flip, messages and timers are implemented there. Tweak durations and messages in that file.
+* **Styling / layout**: modify `styles.css` — breakpoints and hero styles live there.
 
 ---
 
-## 🧪 Testing Locally
+## Troubleshooting checklist
 
-1. Open `index.html` directly in Google Chrome
-2. Test the login (username: Kobi, password: Chora)
-3. Scroll through to test videos
-4. Check on your phone by opening the file
-
----
-
-## 🌐 Deploying to GitHub Pages
-
-### Step 1: Create GitHub Account
-1. Go to https://github.com
-2. Sign up for free account
-
-### Step 2: Create Repository
-1. Click "+" icon → "New repository"
-2. Name: `birthday-surprise`
-3. Select "Public"
-4. ✅ Check "Add a README file"
-5. Click "Create repository"
-
-### Step 3: Upload Files
-1. In your repository, click "Add file" → "Upload files"
-2. Drag and drop:
-   - `index.html`
-   - `styles.css`
-   - `script.js`
-   - The entire `assets` folder
-3. Click "Commit changes"
-
-### Step 4: Enable GitHub Pages
-1. Go to "Settings" (top menu)
-2. Click "Pages" (left sidebar)
-3. Under "Source": select "Deploy from a branch"
-4. Under "Branch": select "main" and "/ (root)"
-5. Click "Save"
-6. Wait 2-3 minutes
-
-### Step 5: Get Your Link
-1. Refresh the Pages settings
-2. You'll see: "Your site is live at `https://YOUR-USERNAME.github.io/birthday-surprise/`"
-3. Copy this link and send it to her!
+* If page doesn’t load or shows missing media: confirm `assets/` files exist and filenames exactly match those referenced in `index.html`.
+* If videos fail to play: confirm correct `Content-Type` on the host (especially on Azure) and check browser console for errors.
+* If audio won’t autoplay: ensure user interaction occurs before music starts (login button click is the usual trigger).
 
 ---
 
-## ✨ Key Features
+## License & credits
 
-✅ **Separate Files** - Easy to edit and maintain
-✅ **Clean Code** - Professional structure
-✅ **Responsive** - Works on all devices
-✅ **Golden Silk Thread** - Flowing S-curves throughout
-✅ **Video Audio Controls** - YouTube-style mute/unmute
-✅ **Background Music** - Continuous ambient music
-✅ **Voice Feedback** - Browser speaks on login
-✅ **Loading Screen** - Professional asset loading
-✅ **Premium Fonts** - Alex Brush calligraphy
-✅ **Glowing Moon** - Large with animated glow
-✅ **Heart Made from Thread** - Silk thread forms the heart
-✅ **Golden Rose** - At the end of the thread
+* Use freely. Add an `LICENSE` file (MIT recommended) if you want to explicitly permit reuse.
+* Replace any demo assets (AI videos/images/music) with your own memories for a true personalised page.
 
 ---
 
-## 🎨 Customization Quick Reference
+## Final notes
 
-### Change Text in HTML:
-- Hero title: Line ~90 in `index.html`
-- Finale text: Line ~260+ in `index.html`
-- Memory captions: Each memory section in HTML
+* Keep the `GF` suffix in tarot filenames even if the photo is of a boyfriend — the JavaScript expects that naming convention.
+* Repo name reminder: **chronaetide**.
+* Main title shown on the site / repo: **🌙 Celestial Whispers - Birthday Website**.
 
-### Change Colors in CSS:
-- Edit `:root` variables at top of `styles.css`
 
-### Change Login in JS:
-- Edit `CONFIG` object at top of `script.js`
 
----
 
-## 🐛 Troubleshooting
-
-**Videos not playing:**
-- Check file names match exactly
-- Ensure they're in `assets` folder
-- Try scrolling slowly
-
-**Thread looks wrong:**
-- Clear browser cache
-- Wait a moment after page loads
-- Resize window to trigger recalculation
-
-**Music not playing:**
-- Click the golden button bottom-right
-- Check file is named `background-music.mp3`
-- Some browsers block autoplay
-
-**Heart not showing:**
-- Check console for errors (F12 in browser)
-- Ensure all files are uploaded
-- Try refreshing the page
-
----
-
-## 📱 Mobile Testing
-
-Test on actual devices:
-- iPhone: Open link in Safari
-- Android: Open link in Chrome
-- Rotate device to test portrait/landscape
-- Test touch controls
-- Check video playback
-
----
-
-## 💡 Pro Tips
-
-1. **Compress videos** before uploading to speed up loading
-2. **Use high-quality moon image** (PNG with transparency)
-3. **Choose calm instrumental music** (3-5 minutes, loops automatically)
-4. **Test thoroughly** before sending the link
-5. **Send at midnight** on her birthday for maximum impact!
-
----
-
-## 🎁 What She'll Experience
-
-1. Loading screen with spinning golden ring
-2. Login page with her name
-3. Voice welcome message
-4. Hero section with glowing moon and title in handwriting
-5. Beautiful narrative in elegant italic
-6. Videos connected by flowing golden silk thread
-7. Videos bloom to color as she scrolls
-8. Individual audio controls on each video
-9. Heart made entirely from silk thread at the end
-10. Golden rose blooming from the thread
-11. Final message in romantic calligraphy
-
----
-
-## ✅ Final Checklist
-
-Before deploying:
-- [ ] All 6 videos renamed correctly
-- [ ] Moon image added
-- [ ] Background music added
-- [ ] Password changed in `script.js`
-- [ ] All memory captions customized
-- [ ] Tested locally in browser
-- [ ] All files uploaded to GitHub
-- [ ] GitHub Pages enabled
-- [ ] Live link tested
-- [ ] Tested on mobile device
-
----
-
-**You're all set! This is now a professional, separated, maintainable codebase.** 🚀
-
-No more single file mess - everything is clean, organized, and easy to modify!
